@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1a202c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .envelope-container {
+            cursor: pointer;
+            width: 300px;
+            height: 200px;
+            position: relative;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 1.5s;
+        }
+        .envelope-front {
+            transform: rotateY(0deg);
+            transition: transform 1.5s;
+        }
+        .envelope-open {
+            transform: rotateY(180deg);
+        }
+        .envelope-side, .middle-finger-side {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .middle-finger-side {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 flex flex-col justify-center items-center p-4">
+
+    <!-- Container to hold the message box. -->
+    <div id="message-container" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700 max-w-sm w-full text-center">
+            <p id="message-text" class="text-white text-lg font-medium mb-4"></p>
+            <button onclick="closeMessage()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200">OK</button>
+        </div>
+    </div>
+
+    <h1 class="text-3xl font-bold mb-8">Click the Envelope!</h1>
+
+    <div id="envelope-container" class="envelope-container">
+        <!-- Front side of the envelope -->
+        <div id="envelope-front" class="envelope-side">
+            <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200" fill="currentColor">
+                <path d="M0 0h300v200H0z" fill="#4a5568"/>
+                <path d="M150 100L0 0h300L150 100z" fill="#a0aec0"/>
+                <path d="M0 0L150 100v100H0z" fill="#cbd5e0"/>
+                <path d="M300 0L150 100v100h150z" fill="#cbd5e0"/>
+                <path d="M0 200L150 100h150v100H0z" fill="#a0aec0"/>
+                <path d="M150 100L0 0h300L150 100z" fill="#4a5568" opacity="0.5"/>
+            </svg>
+        </div>
+
+        <!-- Back side with the surprise! -->
+        <div id="middle-finger-side" class="middle-finger-side">
+            <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200" fill="currentColor">
+                <g transform="translate(150, 100) scale(0.5) translate(-150, -100)">
+                    <rect x="125" y="50" width="50" height="150" rx="10" fill="#fbd38d"/>
+                    <rect x="100" y="80" width="50" height="100" rx="10" fill="#fbd38d"/>
+                    <rect x="175" y="80" width="50" height="100" rx="10" fill="#fbd38d"/>
+                    <rect x="75" y="100" width="50" height="80" rx="10" fill="#fbd38d"/>
+                    <rect x="200" y="100" width="50" height="80" rx="10" fill="#fbd38d"/>
+                    <rect x="100" y="180" width="125" height="20" rx="10" fill="#fbd38d"/>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        const envelopeContainer = document.getElementById('envelope-container');
+        const messageContainer = document.getElementById('message-container');
+        const messageText = document.getElementById('message-text');
+
+        function showMessage(text) {
+            messageText.textContent = text;
+            messageContainer.classList.remove('hidden');
+        }
+
+        function closeMessage() {
+            messageContainer.classList.add('hidden');
+        }
+
+        envelopeContainer.addEventListener('click', () => {
+            envelopeContainer.classList.toggle('envelope-open');
+            setTimeout(() => {
+                showMessage("I told you to be careful what you wish for!");
+            }, 1000); // Wait for the animation to finish
+        });
+    </script>
+</body>
+</html>
+
+
